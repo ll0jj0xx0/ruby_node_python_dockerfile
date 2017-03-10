@@ -51,8 +51,8 @@ ENV NODE_VERSION v6.10.0
 RUN \
   cd /tmp && \
   wget https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION.tar.gz && \
-  tar xvzf node-latest.tar.gz && \
-  rm -f node-latest.tar.gz && \
+  tar xvzf node-$NODE_VERSION.tar.gz && \
+  rm -f node-$NODE_VERSION.tar.gz && \
   cd node-v* && \
   ./configure && \
   CXX="g++ -Wno-unused-local-typedefs" make && \
