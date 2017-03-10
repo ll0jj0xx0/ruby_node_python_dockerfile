@@ -45,10 +45,12 @@ ENV BUNDLE_APP_CONFIG $GEM_HOME
 # see update.sh for why all "apt-get install"s have to stay as one long line
 RUN apt-get update && rm -rf /var/lib/apt/lists/*
 
+ENV NODE_VERSION v6.10.0
+
 # Install Node.js
 RUN \
   cd /tmp && \
-  wget http://nodejs.org/dist/node-latest.tar.gz && \
+  wget https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION.tar.gz && \
   tar xvzf node-latest.tar.gz && \
   rm -f node-latest.tar.gz && \
   cd node-v* && \
@@ -71,10 +73,10 @@ ENV LANG C.UTF-8
 # gpg: key 18ADD4FF: public key "Benjamin Peterson <benjamin@python.org>" imported
 RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys C01E1CAD5EA2C4F0B8E3571504C367C218ADD4FF
 
-ENV PYTHON_VERSION 2.7.10
+ENV PYTHON_VERSION 2.7.13
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 7.1.2
+ENV PYTHON_PIP_VERSION 9.0.1
 
 RUN set -x \
 	&& mkdir -p /usr/src/python \
@@ -98,3 +100,6 @@ RUN set -x \
 
 # install "virtualenv", since the vast majority of users of this image will want it
 RUN pip install --no-cache-dir virtualenv
+
+# Update ssl related components
+RUN apt-get update && apt-get install -y build-essential libssl-dev libffi-dev python-dev
